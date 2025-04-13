@@ -5,6 +5,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import swaggerUI from 'swagger-ui-express';
+import swaggerJsDoc from 'swagger-jsdoc';
 
 // Custom middleware imports
 import logger from './middleware/Logger.js';
@@ -13,6 +15,7 @@ import errorHandler from './middleware/ErrorHandler.js';
 // Utility imports
 import { asciiArt } from './helpers/Utilities.js';
 import seedData from './models/seeds/seeder.js';
+import { initializeEmailService } from './helpers/Email.js';
 
 //Routes
 import healthCheckRoute from './routes/HealthCheckRoute.js';
@@ -21,17 +24,50 @@ import authRoutes from './routes/AuthRoutes.js';
 import roleRoutes from './routes/RoleRoutes.js';
 
 // Load environment variables from .env file
-dotenv.config()
+dotenv.config();
+
+// console.log('Environment variables loaded.', process.env);
+
+// Set up Swagger options
+const swaggerOptions = {
+    swaggerDefinition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Core MD Cloud API',
+            version: '1.0.0',
+            description: 'API documentation for Core MD Cloud',
+        },
+        servers: [
+            {
+                url: `http://localhost:${process.env.PORT || 3000}`,
+            },
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                    description: 'JWT authorization header', 
+                }
+            }
+        }
+    },
+    apis: ['./src/routes/*.js'],
+};
 
 // initializing express app
 const app = express();
 // Select port
 const port = process.env.PORT || 3000;
+// Initialize Swagger documentation
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 // middleware
 app.use(logger); // This logger logs the incoming request to the console
 app.use(express.json()) // This middleware parses the request body and makes it available in req.body
 app.use(express.urlencoded({ extended: true })); // This middleware parses the URL-encoded data and makes it available in req.body
+
 
 /**
  * Connect to MongoDB using mongoose and seed the database with initial data
@@ -67,6 +103,7 @@ const startApplication = async () => {
     try {
         console.log('Starting Cloud Server...');
         await initializeDB();
+        initializeEmailService();
         startServer();
         console.log('Core MD Cloud server successfully initialized.');
     } catch(error) {
@@ -78,6 +115,7 @@ const startApplication = async () => {
 startApplication();
 
 // Register routes
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 app.use('/health-check', healthCheckRoute);
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
@@ -88,4 +126,13 @@ app.use(errorHandler);
 
 /**
  * TODO:
+ * - Implement forgot password functionality
+ * - Implement reset password functionality
+ * - Implement email verification functionality
+ * - IMplement Social login 
+ * - Implement Course resource
+ * - Implement Course subscription resource
+ * - Implement Module resource
+ * - Implement Lecture resource
+ * - Implement Exam resource
  */

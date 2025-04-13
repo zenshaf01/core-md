@@ -5,6 +5,7 @@ import Role from '../models/Role.js';
 import { isAdmin } from './RoleController.js';
 import RequestError from '../errors/RequestError.js';
 import TokenBlacklist from '../models/TokenBlacklist.js';
+import { sendEmail } from '../helpers/Email.js';
 
 const hashPassword = async (password) => {
     return await bcrypt.hash(password, 10);
@@ -42,6 +43,8 @@ export const seedAdmin = async () => {
         console.error('Error seeding admin user:', error);
     }
 };
+
+//All endpoints still need validation and error handling
 
 export const refreshAccessToken = async (req, res, next) => {
     try {
@@ -191,3 +194,59 @@ export const logout = async (req, res, next) => {
         next(error);
     }
 };
+
+export const initiateForgotPassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            throw new RequestError('Email is required.', 400);
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            throw new RequestError('User not found.', 404);
+        }
+
+        // Generate a password reset token (this should be a one-time token)
+        const resetToken = jwt.sign({ userId: user._id }, process.env.JWT_RESET_PASSWORD_SECRET, { expiresIn: '1h' });
+        // Send the reset token to the user's email (implement email sending logic here)
+        const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+        await sendEmail(email, 'Password Reset', 'passwordReset', { 
+            name: user.name,
+            resetLink
+        });
+
+        res.status(200).json({ message: 'Password reset link sent to your email.' });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const resetPassword = async (req, res, next) => {
+    try {
+        const { token, newPassword } = req.body;
+        if (!token || !newPassword) {
+            throw new RequestError('Email and new password are required.', 400);
+        }
+
+        //verify the token
+        let decodedToken;
+        try {
+            decodedToken = jwt.verify(token, process.env.JWT_RESET_PASSWORD_SECRET);
+        } catch (error) {
+            throw new RequestError('Invalid or expired token.', 400);
+        }
+
+        const user = await User.findById(decodedToken.userId);
+        if (!user) {
+            throw new RequestError('User not found.', 404);
+        }
+
+        user.passwordHash = await hashPassword(newPassword);
+        await user.save();
+
+        res.status(200).json({ message: 'Password reset successfully.' });
+    } catch (error) {
+        next(error);
+    }
+}
