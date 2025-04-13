@@ -126,8 +126,7 @@ app.use(errorHandler);
 
 /**
  * TODO:
- * - Implement forgot password functionality
- * - Implement reset password functionality
+ * - Implement update user information functionality (name, password, email, etc.)
  * - Implement email verification functionality
  * - IMplement Social login 
  * - Implement Course resource
