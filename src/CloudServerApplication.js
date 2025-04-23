@@ -17,11 +17,8 @@ import { asciiArt } from './helpers/Utilities.js';
 import seedData from './models/seeds/seeder.js';
 import { initializeEmailService } from './helpers/Email.js';
 
-//Routes
-import healthCheckRoute from './routes/HealthCheckRoute.js';
-import userRoutes from './routes/UserRoutes.js';
-import authRoutes from './routes/AuthRoutes.js';
-import roleRoutes from './routes/RoleRoutes.js';
+//Main Api router
+import apiRoutes from './routes/ApiRoutes.js';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -115,11 +112,8 @@ const startApplication = async () => {
 startApplication();
 
 // Register routes
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
-app.use('/health-check', healthCheckRoute);
-app.use('/auth', authRoutes);
-app.use('/users', userRoutes);
-app.use('/roles', roleRoutes);
+app.use('/api', apiRoutes);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs)); // Serve Swagger UI
 
 // Error handling middleware
 app.use(errorHandler);
@@ -127,7 +121,7 @@ app.use(errorHandler);
 /**
  * TODO:
  * - Implement email verification functionality - just have to run and check.....
- * - Implement update user information functionality (name, password, email, etc.)
+ * - Implement update user information functionality (name, password, email, etc)
  * - IMplement Social signup and login
  * - Implement Course resource
  * - Implement Course subscription resource

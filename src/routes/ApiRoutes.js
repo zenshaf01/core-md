@@ -1,0 +1,22 @@
+import express from 'express';
+
+// Import individual route modules
+import userRoutes from './UserRoutes.js';
+import authRoutes from './AuthRoutes.js';
+import roleRoutes from './RoleRoutes.js';
+import healthCheckRoute from './HealthCheckRoute.js';
+
+const apiRouter = express.Router();
+
+// Register routes with the API router
+apiRouter.use('/health-check', healthCheckRoute);
+apiRouter.use('/auth', authRoutes);
+apiRouter.use('/users', userRoutes);
+apiRouter.use('/roles', roleRoutes);
+
+// Create a versioned router
+const versionedRouter = express.Router();
+versionedRouter.use('/v1', apiRouter);
+
+export default versionedRouter;
+

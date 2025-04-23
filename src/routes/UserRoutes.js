@@ -7,7 +7,7 @@ import isAuthenticated from '../middleware/Authentication.js';
 
 const router = express.Router();
 
-// Create a new user
+// Generate swagger docs for this
 router.post('/', isAuthenticated, createUser);
 // Get all users
 router.get('/', isAuthenticated, getAllUsers);
