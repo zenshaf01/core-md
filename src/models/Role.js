@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const RoleSchema = new mongoose.Schema({
     name: {
         type: String,
-        enum: ['admin', 'instructor', 'student'],
+        enum: ['super-admin', 'admin', 'instructor', 'student'],
         required: true,
         unique: true,
     },

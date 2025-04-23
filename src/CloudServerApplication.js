@@ -98,9 +98,9 @@ const startServer = () => {
  */
 const startApplication = async () => {
     try {
-        console.log('Starting Cloud Server...');
         await initializeDB();
         initializeEmailService();
+        console.log('Starting Cloud Server...');
         startServer();
         console.log('Core MD Cloud server successfully initialized.');
     } catch(error) {

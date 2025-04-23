@@ -1,7 +1,7 @@
 import Role from "../models/Role.js";
 import RequestError from "../errors/RequestError.js";
 
-const hasRole = (requiredRole) => {
+const hasRole = (requiredRoles) => {
     return async (req, res, next) => {
         try {
             // Check if the user is authenticated
@@ -16,7 +16,7 @@ const hasRole = (requiredRole) => {
             }
 
             // Check if the user has the required role
-            if (role.name !== requiredRole) {
+            if (requiredRoles.includes(role.name)) {
                 throw new RequestError('Forbidden', 403);
             }
             // If the user has the required role, proceed to the next middleware or route handler

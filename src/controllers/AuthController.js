@@ -21,19 +21,19 @@ const generateRefreshToken = (userId) => {
 
 export const seedAdmin = async () => {
     try {
-        console.log('seeding admin user...');
-        const adminRole = await Role.findOne({ name: 'admin' });
+        console.log('Seeding admin user...');
+        const adminRole = await Role.findOne({ name: 'super-admin' });
 
-        const existingAdmins = await User.find({email: process.env.ADMIN_EMAIL, role: adminRole});
+        const existingAdmins = await User.find({email: process.env.SUPER_ADMIN_EMAIL, role: adminRole});
         if (existingAdmins.length > 0) {
             console.log('Database already seeded with admin user...');
             return;
         }
 
         const admin = new User({
-            email: process.env.ADMIN_EMAIL,
-            name: process.env.ADMIN_NAME,
-            passwordHash: await hashPassword(process.env.ADMIN_PASSWORD),
+            email: process.env.SUPER_ADMIN_EMAIL,
+            name: process.env.SUPER_ADMIN_NAME,
+            passwordHash: await hashPassword(process.env.SUPER_ADMIN_PASSWORD),
             role: adminRole,
         });
 
