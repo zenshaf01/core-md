@@ -122,6 +122,8 @@ export const signup = async (req, res, next) => {
         });
 
         await user.save();
+        await sendVerificationEmail(user);
+
         res.status(201).json({ message: 'User created successfully.' });
     } catch (error) {
         next(error);
@@ -246,6 +248,44 @@ export const resetPassword = async (req, res, next) => {
         await user.save();
 
         res.status(200).json({ message: 'Password reset successfully.' });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const sendVerificationEmail = async (user) => {
+    const verificationToken = jwt.sign({ userId: user._id }, process.env.JWT_EMAIL_VERIFICATION_SECRET, { expiresIn: '24h' });
+    const verificationLink = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+    await sendEmail(user.email, 'Email Verification', 'emailVerification', { 
+        name: user.name,
+        verificationLink
+    });
+}
+
+export const verifyEmail = async (req, res, next) => {
+    try {
+        const { token } = req.body;
+        if (!token) {
+            throw new RequestError('Token is required.', 400);
+        }
+
+        // Verify the token
+        let decodedToken;
+        try {
+            decodedToken = jwt.verify(token, process.env.JWT_EMAIL_VERIFICATION_SECRET);
+        } catch (error) {
+            throw new RequestError('Invalid or expired token.', 400);
+        }
+
+        const user = await User.findById(decodedToken.userId);
+        if (!user) {
+            throw new RequestError('User not found.', 404);
+        }
+
+        user.emailVerified = true;
+        await user.save();
+
+        res.status(200).json({ message: 'Email verified successfully.' });
     } catch (error) {
         next(error);
     }

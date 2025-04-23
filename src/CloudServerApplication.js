@@ -126,9 +126,9 @@ app.use(errorHandler);
 
 /**
  * TODO:
+ * - Implement email verification functionality - just have to run and check.....
  * - Implement update user information functionality (name, password, email, etc.)
- * - Implement email verification functionality
- * - IMplement Social login 
+ * - IMplement Social signup and login
  * - Implement Course resource
  * - Implement Course subscription resource
  * - Implement Module resource

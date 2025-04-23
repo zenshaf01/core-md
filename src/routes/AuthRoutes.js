@@ -1,5 +1,13 @@
 import express from 'express';
-import { signup, login, logout, refreshAccessToken, initiateForgotPassword, resetPassword } from '../controllers/AuthController.js';
+import { 
+    signup, 
+    login, 
+    logout, 
+    refreshAccessToken, 
+    initiateForgotPassword, 
+    resetPassword, 
+    verifyEmail 
+} from '../controllers/AuthController.js';
 import isAuthenticated from '../middleware/Authentication.js';
 
 const router = express.Router();
@@ -109,5 +117,7 @@ router.post('/forgot-password', initiateForgotPassword);
  *       description: Internal server error 
  */
 router.post('/reset-password', resetPassword);
+
+router.post('/verify-email', verifyEmail);
 
 export default router;
