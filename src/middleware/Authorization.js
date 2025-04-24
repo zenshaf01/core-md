@@ -1,7 +1,7 @@
 import Role from "../models/Role.js";
 import RequestError from "../errors/RequestError.js";
 
-const hasRole = (requiredRoles) => {
+const authorize = (requiredRoles) => {
     return async (req, res, next) => {
         try {
             // Check if the user is authenticated
@@ -27,4 +27,4 @@ const hasRole = (requiredRoles) => {
     }
 };
 
-export default hasRole;
+export default authorize;

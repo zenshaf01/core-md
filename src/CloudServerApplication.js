@@ -120,6 +120,9 @@ app.use(errorHandler);
 
 /**
  * TODO:
+ * - Ensure multi-tenancy is implemented in the database
+ * - Implement organization controller and routes and logic
+ * - Implement course resource
  * - Implement email verification functionality - just have to run and check.....
  * - Implement update user information functionality (name, password, email, etc)
  * - IMplement Social signup and login

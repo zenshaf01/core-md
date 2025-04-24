@@ -3,7 +3,7 @@ import User from '../models/User.js';
 import RequestError from '../errors/RequestError.js';
 import TokenBlacklist from '../models/TokenBlacklist.js';
 
-const isAuthenticated = async (req, res, next) => {
+const authenticate = async (req, res, next) => {
     try {
         // Check if the Authorization header is present
         const token = req.header('Authorization').replace('Bearer ', '');
@@ -33,4 +33,4 @@ const isAuthenticated = async (req, res, next) => {
     }
 };
 
-export default isAuthenticated;
+export default authenticate;

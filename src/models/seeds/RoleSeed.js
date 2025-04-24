@@ -1,6 +1,6 @@
 const roleSeed = [
     {
-        name: 'super-admin',
+        name: 'admin',
         description: 'Administrator with full access.',
         permissions: [
             'course:create,read,update,delete',

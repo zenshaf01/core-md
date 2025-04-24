@@ -4,21 +4,21 @@
  */
 import express from 'express';
 import { createRole, deleteRole, getAllRoles, getRoleById, updateRole } from '../controllers/RoleController.js';
-import isAuthenticated from '../middleware/Authentication.js';
-import hasRole from '../middleware/Authorization.js';
+import authenticate from '../middleware/Authentication.js';
+import authorize from '../middleware/Authorization.js';
 
 const router = express.Router();
 
 // TODO: Should it be allowed to create roles by the nomral organization admin?
 // Create a new role
-router.post('/', isAuthenticated, hasRole(['super-admin', 'admin']), createRole);
+router.post('/', authenticate, authorize(['admin']), createRole);
 // Get all roles
-router.get('/', isAuthenticated, hasRole(['super-admin', 'admin']), getAllRoles);
+router.get('/', authenticate, authorize(['admin']), getAllRoles);
 // Get a role by ID
-router.get('/:id', isAuthenticated, hasRole(['super-admin', 'admin']), getRoleById);
+router.get('/:id', authenticate, authorize(['admin']), getRoleById);
 // Update a role by ID
-router.put('/:id', isAuthenticated, hasRole(['super-admin', 'admin']), updateRole);
+router.put('/:id', authenticate, authorize(['admin']), updateRole);
 // Delete a role by ID
-router.delete('/:id', isAuthenticated, hasRole(['super-admin', 'admin']), deleteRole);
+router.delete('/:id', authenticate, authorize(['admin']), deleteRole);
 
 export default router;

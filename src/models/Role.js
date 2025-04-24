@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const RoleSchema = new mongoose.Schema({
     name: {
         type: String,
-        enum: ['super-admin', 'admin', 'instructor', 'student'],
+        enum: ['admin', 'moderator', 'instructor', 'student'],
         required: true,
         unique: true,
     },
@@ -17,7 +17,7 @@ const RoleSchema = new mongoose.Schema({
         required: true
     }
 },{
-    timestamps: true, // Automatically adds createdAt and updatedAt fields
+    timestamps: true,
 });
 
 export default mongoose.model('Role', RoleSchema);

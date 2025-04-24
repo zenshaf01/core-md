@@ -8,7 +8,7 @@ import {
     resetPassword, 
     verifyEmail 
 } from '../controllers/AuthController.js';
-import isAuthenticated from '../middleware/Authentication.js';
+import authenticate from '../middleware/Authentication.js';
 
 const router = express.Router();
 
@@ -64,7 +64,7 @@ router.post('/login', login);
  *  500:
  *   description: Internal server error  
  */
-router.post('/logout', isAuthenticated, logout);
+router.post('/logout', authenticate, logout);
 /**
  * @swagger
  * /auth/refresh-token:

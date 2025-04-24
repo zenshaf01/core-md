@@ -3,19 +3,19 @@
  */
 import express from 'express';
 import { createUser, getAllUsers, getUserById, updateUserById, deleteUserById } from '../controllers/UserController.js';
-import isAuthenticated from '../middleware/Authentication.js';
+import authenticate from '../middleware/Authentication.js';
 
 const router = express.Router();
 
 // Generate swagger docs for this
-router.post('/', isAuthenticated, createUser);
+router.post('/', authenticate, createUser);
 // Get all users
-router.get('/', isAuthenticated, getAllUsers);
+router.get('/', authenticate, getAllUsers);
 // Get a user by ID
-router.get('/:id', isAuthenticated, getUserById);
+router.get('/:id', authenticate, getUserById);
 // Update a user by ID
-router.put('/:id', isAuthenticated, updateUserById);
+router.put('/:id', authenticate, updateUserById);
 // Delete a user by ID
-router.delete('/:id', isAuthenticated, deleteUserById);
+router.delete('/:id', authenticate, deleteUserById);
 
 export default router;
