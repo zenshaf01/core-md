@@ -4,6 +4,7 @@ import express from 'express';
 import userRoutes from './UserRoutes.js';
 import authRoutes from './AuthRoutes.js';
 import roleRoutes from './RoleRoutes.js';
+import courseRoutes from './CourseRoutes.js';
 import healthCheckRoute from './HealthCheckRoute.js';
 
 const apiRouter = express.Router();
@@ -13,10 +14,12 @@ apiRouter.use('/health-check', healthCheckRoute);
 apiRouter.use('/auth', authRoutes);
 apiRouter.use('/users', userRoutes);
 apiRouter.use('/roles', roleRoutes);
+apiRouter.use('/courses', courseRoutes);
 
 // Create a versioned router
 const versionedRouter = express.Router();
 versionedRouter.use('/v1', apiRouter);
 
 export default versionedRouter;
+
 

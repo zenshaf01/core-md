@@ -16,7 +16,7 @@ const authorize = (requiredRoles) => {
             }
 
             // Check if the user has the required role
-            if (requiredRoles.includes(role.name)) {
+            if (!requiredRoles.includes(role.name)) {
                 throw new RequestError('Forbidden', 403);
             }
             // If the user has the required role, proceed to the next middleware or route handler
