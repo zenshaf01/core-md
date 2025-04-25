@@ -65,7 +65,7 @@ router.get('/:id', authenticate, getCourseById);
  *       201:
  *         description: Course created
  */
-router.post('/', authenticate, validateCreate, authorize(["admin", "moderator", "instructor"]), createCourse);
+router.post('/', authenticate, authorize(["admin", "moderator", "instructor"]), validateCreate, createCourse);
 
 /**
  * @swagger
@@ -95,7 +95,7 @@ router.post('/', authenticate, validateCreate, authorize(["admin", "moderator", 
  *       200:
  *         description: Course updated
  */
-router.put('/:id', authenticate, validateUpdate, authorize(["admin", "moderator", "instructor"]), updateCourse);
+router.put('/:id', authenticate, authorize(["admin", "moderator", "instructor"]), validateUpdate, updateCourse);
 
 /**
  * @swagger
