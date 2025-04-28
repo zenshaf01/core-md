@@ -4,7 +4,8 @@ import Course from '../models/Course.js';
 // Create a new module for a course
 export const createModule = async (req, res) => {
     try {
-        const { title, description, courseId } = req.body;
+        const { courseId } = req.params; // Get courseId from URL parameters
+        const { title, description } = req.body;
 
         // Check if the course exists
         const course = await Course.findById(courseId);
@@ -25,7 +26,7 @@ export const createModule = async (req, res) => {
 // Get all modules for a course
 export const getModules = async (req, res) => {
     try {
-        const { courseId } = req.body;
+        const { courseId } = req.params;
 
         // Check if the course exists
         const course = await Course.findById(courseId);

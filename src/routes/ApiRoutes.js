@@ -16,7 +16,7 @@ apiRouter.use('/auth', authRoutes);
 apiRouter.use('/users', userRoutes);
 apiRouter.use('/roles', roleRoutes);
 apiRouter.use('/courses', courseRoutes);
-apiRouter.use('/modules', moduleRoutes);
+apiRouter.use('/courses/:courseId/modules', moduleRoutes);
 
 // Create a versioned router
 const versionedRouter = express.Router();

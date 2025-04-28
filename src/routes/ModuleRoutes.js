@@ -11,7 +11,7 @@ import authenticate from '../middleware/Authentication.js';
 import authorize from '../middleware/Authorization.js';
 import { validateCreate, validateUpdate } from '../middleware/validations/ModuleValidation.js';
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 /**
  * @swagger
