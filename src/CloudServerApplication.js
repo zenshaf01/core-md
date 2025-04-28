@@ -120,7 +120,6 @@ app.use(errorHandler);
 
 /**
  * TODO:
- * - Ensure multi-tenancy is implemented in the database
  * - Implement organization controller and routes and logic
  * - Implement course resource
  * - Implement email verification functionality - just have to run and check.....
