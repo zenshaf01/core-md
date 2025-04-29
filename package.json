@@ -4,6 +4,9 @@
     "description": "Main cloud service for Core MD",
     "main": "src/CloudServerApplication.js",
     "type": "module",
+    "engines": {
+        "node": ">=16"
+    },    
     "scripts": {
         "start": "nodemon src/CloudServerApplication.js",
         "test": "echo \"Error: no test specified\" && exit 1"
